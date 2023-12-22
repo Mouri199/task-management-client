@@ -20,7 +20,8 @@ const TargetAudience = () => {
 
             title: data.title,
             description: data.description,
-            deadline: data.deadline
+            deadline: data.deadline,
+            priority: data.priority
         }
         await axiosPublic.post('/works', formData)
             .then((res) => {
@@ -70,6 +71,14 @@ const TargetAudience = () => {
                             </label>
                             <input type="text" name='description' {...register("description", { required: true })} placeholder="description" className="input input-bordered lg:w-[400px]" />
                             {errors.description && <span className='text-red-800'>Description is required</span>}
+                        </div>
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text text-[#DAFFFB]">Priority</span>
+                            </label>
+                            <input type="text" name='priority' {...register("priority", { required: true })} placeholder="priority" className="input input-bordered lg:w-[400px]" />
+                            {errors.priority && <span className='text-red-800'>Priority is required</span>}
                         </div>
 
                         <div className="form-control">

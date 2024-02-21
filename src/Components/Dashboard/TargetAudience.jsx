@@ -3,6 +3,8 @@ import useAuth from '../Hook/useAuth';
 import welcome from '/welcome.svg'
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../Hook/useAxiosPublic';
+import Lottie from 'lottie-react';
+import loading from '../loading.json'
 
 const TargetAudience = () => {
     const { user, load } = useAuth()
@@ -21,7 +23,8 @@ const TargetAudience = () => {
             title: data.title,
             description: data.description,
             deadline: data.deadline,
-            priority: data.priority
+            priority: data.priority,
+            email: data.email
         }
         await axiosPublic.post('/works', formData)
             .then((res) => {
@@ -35,7 +38,7 @@ const TargetAudience = () => {
 
     }
     if (load) {
-        return <p>Loading...</p>; // or some loading indicator
+        return <Lottie animationData={loading}></Lottie> ; // or some loading indicator
     }
 
     return (
@@ -57,7 +60,14 @@ const TargetAudience = () => {
             <button className="btn bg-[#176B87] text-[#DAFFFB] lg:ml-[400px]" onClick={() => document.getElementById('my_modal_5').showModal()}>Create your work board</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-[#176B87]">
-                    <form  onSubmit={handleSubmit(onSubmit)} >
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text text-[#DAFFFB]">Email</span>
+                            </label>
+                            <input type="email" defaultValue={user.email} name='email' {...register("email", { required: true })} placeholder="email" readOnly className=" input input-bordered lg:w-[400px]" />
+                            {errors.email && <span className='text-red-800'>Email is required</span>}
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-[#DAFFFB]">Title</span>
@@ -77,7 +87,15 @@ const TargetAudience = () => {
                             <label className="label">
                                 <span className="label-text text-[#DAFFFB]">Priority</span>
                             </label>
-                            <input type="text" name='priority' {...register("priority", { required: true })} placeholder="priority" className="input input-bordered lg:w-[400px]" />
+                            <select className="select select-info w-full lg:w-[400px] max-w-xs"
+                                {...register("priority", { required: true })}
+                            >
+                                <option disabled selected>Select Priority</option>
+                                <option>Low</option>
+                                <option>Moderate</option>
+                                <option>High</option>
+                            </select>
+
                             {errors.priority && <span className='text-red-800'>Priority is required</span>}
                         </div>
 

@@ -1,7 +1,7 @@
-
 import { Link, NavLink } from 'react-router-dom';
 import logo from '/logo.png'
 import useAuth from '../Hook/useAuth';
+
 const Navbar = () => {
 
     const { user, logoutUser } = useAuth()
@@ -14,120 +14,99 @@ const Navbar = () => {
 
 
     return (
-        // <div>
-        //     <img src={logo} alt="" />
-        // </div>
 
-        < div className="relative">
-            <div className=" lg:block bg-[#04364A] hidden text-white py-2">
-                <div className=" text-[#DAFFFB] flex items-center justify-around gap-10">
+        <div className="drawer">
+            <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-content flex flex-col">
+                {/* Navbar */}
+                <div className="w-full flex justify-around h-[100px] navbar bg-[#081325]">
+                    <div className="flex-none lg:hidden">
+                        <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </label>
+                    </div>
 
-                    <div>
-                        <img className="rounded-full w-[120px]" src={logo} alt="" />
+                    <div className="">
+                        <Link to="/"> <img data-aos="zoom-out-left" className="lg:w-[100px] w-[80px] rounded-full mx-4" src={logo} alt="" /></Link>
                     </div>
 
 
-                    <div className='flex gap-20 text-2xl'>
-                        <NavLink to="/">
 
+                    <div className="flex-none  hidden lg:block">
 
-                            Home
+                        <ul className="menu gap-10 text-2xl font-semibold menu-horizontal ">
 
-                        </NavLink>
-                        <NavLink to="/aboutus">
-
-
-                            About Us
-
-                        </NavLink>
-                        <NavLink to="/contact">
-
-
-                            Contact
-
-                        </NavLink>
-
+                            <NavLink to="/">Home</NavLink>
+                            <NavLink to="/contact">Contact Us</NavLink>
+                            <NavLink to='/aboutus'>About Us</NavLink>
+                        </ul>
                     </div>
-
 
                     <div className="flex ">
                         {user ?
-                            <>
-
-                                <div className="dropdown dropdown-end">
-                                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                        <div className="w-10 rounded-full">
-                                            <img alt="" src={user.photoURL} />
-                                        </div>
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img alt="" src={user.photoURL} />
                                     </div>
-                                    <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-[#176B87] text-lg text-[#DAFFFB] rounded-box w-52">
-                                        <li>
-                                            {user.displayName}
-                                        </li>
-                                        <NavLink to='/dashboard/target'>DashBoard</NavLink>
-                                        <NavLink onClick={handleLogOut}> Log Out</NavLink>
-                                    </ul>
                                 </div>
-                            </>
+                                <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-[#176B87] text-lg text-[#DAFFFB] rounded-box w-52">
+                                    <li>
+                                        {user.displayName}
+                                    </li>
+                                    <NavLink to='/dashboard/target'>DashBoard</NavLink>
+                                    <NavLink to='/dashboard/profile'>Profile</NavLink>
+                                    <NavLink onClick={handleLogOut}> Log Out</NavLink>
+                                </ul>
+                            </div>
                             : <NavLink to='/login ' className={"lg:p-2 p-1 mr-2 lg:text-xl text-sm rounded-lg bg-red text-white hover:bg-hoverclr bg-redclr lg:block"}>
                                 Login</NavLink>}
                     </div>
 
+
+
+
                 </div>
 
             </div>
-
-            <div className="drawer absolute lg:hidden">
-                <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center justify-center">
-                    <label htmlFor="my-drawer-2" className="btn btn-ghost drawer-button text-4xl lg:hidden">
-
-                        <i className="fa-solid fa-bars"></i>
-                    </label>
-                </div>
-                <div className="drawer-side z-50">
-                    <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-[#176B87] text-white gap-3">
-                        <Link smooth={true} to="home">
+            <div className="drawer-side z-50">
+                <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
+                <ul className="menu p-4 w-80  min-h-full bg-base-200">
 
 
-                            Home
+                    <Link to='/'><img className="rounded-full w-[120px]" src={logo} alt="" /></Link>
+                    <li className="py-3">
+                        <Link to='/dashboard/target'>Dashboard</Link>
 
-                        </Link>
-                        <Link smooth={true} to="about">
+                    </li>
+                    <li  >
+                        <Link to='/dashboard/profile'>User Profile</Link>
+                    </li>
+                    <li className="py-3">
+                        <Link to='/dashboard/mywork'>Task Management</Link>
+                    </li>
+
+                    <hr />
+
+                    <br />
+                    <li className='py-3'>
+                        <NavLink to="/">Home</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/contact">Contact Us</NavLink>
+                    </li>
+
+                    <li className='py-3'>
+                        <NavLink to='/aboutus'>About Us</NavLink>
+                    </li>
+                    <br />
+
+                </ul>
 
 
-                            About
-
-                        </Link>
-                        <Link smooth={true} to="services">
-
-
-                            Services
-
-                        </Link>
-                        <Link smooth={true} to="project">
-
-
-                            Projects
-
-                        </Link>
-                        <Link smooth={true} to="education">
-
-
-                            Education
-
-                        </Link>
-                        <Link smooth={true} to="contact">
-
-
-                            Contact
-
-                        </Link>
-                    </ul>
-                </div>
             </div>
-        </div>
+
+        </div >
     );
 };
 

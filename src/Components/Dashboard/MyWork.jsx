@@ -5,17 +5,19 @@ import { MdDetails } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../Hook/useAxiosPublic";
-import useAuth from "../Hook/useAuth";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+// import useAuth from "../Hook/useAuth";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import useAuth from "../Hook/useAuth";
 // import { useLoaderData } from "react-router-dom";
 
 
 const MyWork = () => {
+    const { user } = useAuth()
     const rightBox = document.getElementById("right");
     const leftBox = document.getElementById("left");
     const middleBox = document.getElementById("middle");
-    const { user, load } = useAuth()
+    // const { user, load } = useAuth()
     const axiosPublic = useAxiosPublic()
     const [editWorkItem, setEditWorkItem] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
@@ -46,7 +48,8 @@ const MyWork = () => {
             title: data.title,
             description: data.description,
             deadline: data.deadline,
-            priority: data.priority
+            priority: data.priority,
+            email: data.email
         };
 
         try {
@@ -141,6 +144,8 @@ const MyWork = () => {
 
             // Refetch the updated data
             refetch();
+
+
         }
     };
     for (const list of lists) {
@@ -179,16 +184,16 @@ const MyWork = () => {
 
 
     return (
-        <>  <div className="lg:flex lg:mt-20 mx-5 gap-10
+        <>  <div className="grid lg:flex md:grid-cols-2 grid-cols-1 lg:mt-20 lg:mx-5 gap-10
          ">
-            <div id="left" onDrop={handleDrop()} className="bg-[#176B87] px-3 w-[500px] border ">
+            <div id="left" onDrop={handleDrop()} className="bg-[#176B87] px-3 lg:w-[500px]  border ">
                 <h1 className="text-center text-[#DAFFFB] lg:text-3xl my-5">To Do list</h1>
                 {
                     workdata?.map((works) => (
                         <ul key={works._id}>
 
-                            <div className="flex">
-                                <li draggable='true' className="flex  items-center justify-around  list pl-5 rounded-xl text-[#DAFFFB] w-[600px] bg-[#04364A]  h-[65px] cursor-grab lg:pr-4 my-5">{works.title}
+                            <div className="lg:flex">
+                                <li draggable='true' className="lg:flex  items-center justify-around text-sm  list pl-5 rounded-xl text-[#DAFFFB] lg:w-[450px] bg-[#04364A]  lg:h-[65px] cursor-grab lg:pr-4 my-5">{works.title}
                                     <br />
                                     Deadline:
                                     {works.deadline}
@@ -261,12 +266,16 @@ const MyWork = () => {
 
 
             </div>
-            <div id="middle" onDrop={handleDrop()} className="bg-[#176B87] px-3 w-[500px] border ">
+            <div id="middle" onDrop={handleDrop()} className="bg-[#176B87] px-3 lg:w-[500px] border ">
                 <h1 className="text-[#DAFFFB] text-center lg:text-3xl my-5">On going list</h1>
+                <ul>
+                    <li className="w-[600px]"></li>
+                </ul>
+
 
             </div>
 
-            <div id="right" className="bg-[#176B87] px-3 w-[500px] border" onDrop={handleDrop()}>
+            <div id="right" className="bg-[#176B87] px-3 lg:w-[500px] border" onDrop={handleDrop()}>
                 <h1 className="text-[#DAFFFB] text-center lg:text-3xl my-5">Complete list</h1>
 
             </div>
@@ -279,6 +288,13 @@ const MyWork = () => {
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-[#176B87]">
                     <form onSubmit={handleSubmit(onSubmit)} >
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text text-[#DAFFFB]">Email</span>
+                            </label>
+                            <input type="email" defaultValue={user?.email} name='email' {...register("email", { required: true })} placeholder="email" className="input input-bordered lg:w-[400px]" />
+                            {errors.email && <span className='text-red-800'>Email is required</span>}
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-[#DAFFFB]">Title</span>

@@ -13,7 +13,7 @@ const queryClient = new QueryClient()
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <div className='max-w-[1800px] mx-auto'>
+  <div className='bg-[#04364A] max-w-[1800px] mx-auto'>
     <React.StrictMode>
       <AuthContributor>
         <QueryClientProvider client={queryClient}>

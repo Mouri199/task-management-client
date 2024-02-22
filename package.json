@@ -23,6 +23,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.6",
     "react-dragula": "^1.1.17",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.49.2",

@@ -29,8 +29,8 @@ const TargetAudience = () => {
         await axiosPublic.post('/works', formData)
             .then((res) => {
                 console.log(res);
-                reset()
                 Swal.fire("You Added a work board!")
+                reset()
 
             })
             .catch((error) => console.error("Error updating status:", error))
@@ -38,7 +38,7 @@ const TargetAudience = () => {
 
     }
     if (load) {
-        return <Lottie animationData={loading}></Lottie> ; // or some loading indicator
+        return <Lottie animationData={loading}></Lottie>; // or some loading indicator
     }
 
     return (

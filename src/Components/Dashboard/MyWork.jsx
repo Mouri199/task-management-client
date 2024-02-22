@@ -1,4 +1,4 @@
-import { list } from "postcss";
+
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDetails } from "react-icons/md";
@@ -49,6 +49,8 @@ const MyWork = () => {
             priority: data.priority,
             email: data.email
         };
+
+        
 
         try {
             if (editWorkItem) {
@@ -138,7 +140,7 @@ const MyWork = () => {
 
             // Update the category of the dragged task
             const newCategory = targetBox.id === 'middle' ? 'On Going' : 'Complete';
-            await axiosPublic.put(`/workdata/${draggedWorkItem._id}`, { category: newCategory });
+            await axiosPublic.put(`/workdatas/${draggedWorkItem._id}`, { category: newCategory });
 
             // Refetch the updated data
             refetch();
@@ -177,28 +179,6 @@ const MyWork = () => {
         });
     }
 
-    const onPostWork = async (data) => {
-        console.log(data);
-        const formData = {
-
-            title: data.title,
-            description: data.description,
-            deadline: data.deadline,
-            priority: data.priority,
-            email: data.email
-        }
-        await axiosPublic.post('/works', formData)
-            .then((res) => {
-                console.log(res);
-                Swal.fire("You Added a work board!")
-                reset()
-                refetch()
-
-            })
-            .catch((error) => console.error("Error updating status:", error))
-
-
-    }
 
 
 
@@ -229,7 +209,7 @@ const MyWork = () => {
 
                                         <CiEdit className="text-2xl cursor-pointer" onClick={() => handleEditWorkItem(works)} >
                                             <div className="modal-box bg-[#176B87]">
-                                                <form >
+                                                <form  >
                                                     <div className="form-control">
                                                         <label className="label">
                                                             <span className="label-text text-[#DAFFFB]">Title</span>
@@ -256,7 +236,16 @@ const MyWork = () => {
                                                         <label className="label">
                                                             <span className="label-text text-[#DAFFFB]">Prioprity</span>
                                                         </label>
-                                                        <input type="date" name='deadline' placeholder="priority" className="input input-bordered lg:w-[400px]" />
+                                                        <select className="select select-info w-full lg:w-[400px] max-w-xs"
+                                                            {...register("priority", { required: true })}
+                                                        >
+                                                            <option disabled selected>Select Priority</option>
+                                                            <option>Low</option>
+                                                            <option>Moderate</option>
+                                                            <option>High</option>
+                                                        </select>
+
+
 
                                                     </div>
                                                     <input className='btn mt-4 text-[#DAFFFB] bg-[#176B87]' type="submit" value="Updated Board" />
@@ -306,12 +295,12 @@ const MyWork = () => {
             <button className="btn my-4 bg-[#176B87] text-[#DAFFFB] lg:ml-[730px]" onClick={() => document.getElementById('my_modal_5').showModal()}>Create your work board</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-[#176B87]">
-                    <form onSubmit={handleSubmit(onPostWork)} >
+                    <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-[#DAFFFB]">Email</span>
                             </label>
-                            <input type="email" defaultValue={user?.email} name='email' {...register("email", { required: true })} placeholder="email" className="input input-bordered lg:w-[400px]" />
+                            <input type="email" value={user?.email} name='email' {...register("email", { required: true })} placeholder="email" className="input input-bordered lg:w-[400px]" />
                             {errors.email && <span className='text-red-800'>Email is required</span>}
                         </div>
                         <div className="form-control">
@@ -351,7 +340,7 @@ const MyWork = () => {
 
                             {errors.priority && <span className='text-red-800'>Priority is required</span>}
                         </div>
-                        <input className='btn mt-4 text-[#DAFFFB] bg-[#176B87]' type="submit" value="Create Work" />
+                        <input className='btn mt-4 text-[#DAFFFB] bg-[#176B87]' type="submit" value="Updated Board" />
                     </form>
 
                     <div className="modal-action">
